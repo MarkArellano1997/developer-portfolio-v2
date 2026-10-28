@@ -1,0 +1,143 @@
+﻿'use client'
+
+import { useState, useEffect, useRef } from 'react'
+
+/**
+ * Sección "Contact" del portafolio.
+ *
+ * Solo incluye canales respaldados por el proyecto:
+ *   - Perfil de GitHub (`MarkArellano1997`), mismo usuario que usa el
+ *     servicio de repositorios en `app/lib/github.js`.
+ *
+ * No se inventa correo electrónico, número de telÃ©fono, redes sociales ni
+ * enlaces personales que no existan en el proyecto.
+ */
+export default function Contact() {
+    
+    const [status, setStatus] = useState('idle');
+    const timeoutRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+    const handleCopyEmail = async () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+        try {
+            await navigator.clipboard.writeText(
+                "arellano.vilchez.marcos.alejandro@gmail.com"
+            );
+            setStatus('copied');
+            timeoutRef.current = setTimeout(() => setStatus('idle'), 2000);
+        } catch {
+            setStatus('error');
+            timeoutRef.current = setTimeout(() => setStatus('idle'), 3000);
+        }
+    };
+return (
+        <section id="contact" className="py-12">
+            <div className="mx-auto max-w-7xl px-6">
+                <div className="max-w-2xl">
+                    <h2 className="text-3xl font-bold tracking-tight text-zinc-900">
+                        Contáctame
+                    </h2>
+                    <p className="mt-1 text-sm text-zinc-500">
+                        ¿Tienes un proyecto en mente o quieres hablar? Escríbeme.
+                    </p>
+
+                    <p className="mt-6 text-base leading-relaxed text-zinc-700">
+                        Puedes encontrarme en GitHub, donde publico y mantengo mis
+                        repositorios. Si prefieres escribir directamente, déjame un
+                        mensaje y te responderé a la mayor brevedad.
+                    </p>
+
+                    <div className="mt-6 flex flex-wrap items-center gap-4 text-base text-zinc-800">
+                        <code className="rounded bg-zinc-100 px-2 py-1 text-sm font-mono text-zinc-700">
+                            arellano.vilchez.marcos.alejandro@gmail.com
+                        </code>
+                        <div className="flex items-center gap-3">
+                            <button
+                                type="button"
+                                onClick={handleCopyEmail}
+                                className="text-sm font-medium text-[#2563EB] transition-colors hover:text-[#3B82F6]"
+                            >
+                                Copiar correo
+                            </button>
+                            {status === 'copied' && (
+                                <span role="status" className="text-sm font-medium text-green-600">
+                                    ¡Copiado!
+                                </span>
+                            )}
+                            {status === 'error' && (
+                                <span role="alert" className="text-sm font-medium text-red-600">
+                                    Error al copiar. Puedes seleccionar el correo manualmente.
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+
+                    <div className="mt-8 flex flex-wrap gap-4">
+                        <a
+                            href="mailto:arellano.vilchez.marcos.alejandro@gmail.com"
+                            className="inline-flex items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3B82F6] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                            >
+                                <path d="M1.5 8.5 12 3.5l10.5 5-10.5 5L1.5 8.5z" />
+                                <path d="M1.5 8.5v11a2 2 0 0 0 2 2h17a2 2 0 0 0 2-2v-11L12 3.5a2 2 0 0 0-2 0L1.5 8.5z" />
+                                <path d="M3.5 10.5 12 15l8.5-4.5" />
+                            </svg>
+                            Correo electrónico
+                        </a>
+
+                        <a
+                            href="https://wa.me/51939827124"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3B82F6] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                            >
+                                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488s3.481 5.232 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.703l-.005.036-.372 1.368 1.427-.374c1.126.637 2.439.975 3.796.976 4.088 0 7.415-3.327 7.415-7.415 0-4.089-3.327-7.416-7.415-7.416-4.089 0-7.416 3.327-7.416 7.416 0 2.038.799 3.95 2.256 5.407l1.438-1.438zm4.223-2.72l-.566-.566s-.804-.805-1.466-1.467c-.662-.662-1.325-1.325-1.467-1.467-.142-.142-.332-.284-.504-.142-.172.142-.284.425-.284.707 0 .284.142.85.425 1.277.284.425.85 1.277 1.277 1.702.425.425 1.133 1.133 1.558 1.558.425.425 1.133.425 1.558 0 .425-.425.566-1.133.566-1.558.142-.425.284-.991.284-1.416 0-.425-.142-.991-.566-1.416z" />
+                            </svg>
+                            WhatsApp
+                        </a>
+
+                        <a
+                            href="https://github.com/MarkArellano1997"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3B82F6] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                            >
+                                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.75.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.7.42.36.79 1.08.79 2.18v3.23c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
+                            </svg>
+                            Ver perfil en GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
