@@ -11,7 +11,7 @@ import Project, {
  * Se envuelve en Suspense para que el estado de carga se muestre mientras
  * se obtienen los datos.
  */
-async function ProjectList() {
+async function ProjectList({ limit }) {
   let repos;
   let error = null;
 
@@ -29,9 +29,13 @@ async function ProjectList() {
     return <ProjectsEmpty />;
   }
 
+  const displayedRepos = Number.isInteger(limit) && limit > 0
+    ? repos.slice(0, limit)
+    : repos;
+
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-      {repos.map((repo) => (
+      {displayedRepos.map((repo) => (
         <Project key={repo.htmlUrl} repo={repo} />
       ))}
     </div>
@@ -39,22 +43,22 @@ async function ProjectList() {
 }
 
 /**
- * Botón para forzar la actualización de la caché vía la API route.
+ * BotÃƒÂ³n para forzar la actualizaciÃƒÂ³n de la cachÃƒÂ© vÃƒÂ­a la API route.
  * Usa un estado local para evitar re-render infinitos.
  */
 function handleRetry() {
-  // Recarga la página para obtener datos frescos (la caché se revalida
-  // también por tiempo, pero esto da una alternativa inmediata).
+  // Recarga la pÃƒÂ¡gina para obtener datos frescos (la cachÃƒÂ© se revalida
+  // tambiÃƒÂ©n por tiempo, pero esto da una alternativa inmediata).
   if (typeof window !== "undefined") {
     window.location.reload();
   }
 }
 
 /**
- * Sección de proyectos del portafolio.
+ * SecciÃƒÂ³n de proyectos del portafolio.
  * Muestra una cabecera y la lista de repositorios cargada desde GitHub.
  */
-export default function ProjectsSection() {
+export default function ProjectsSection({ limit }) {
   return (
     <section id="projects" className="py-12">
       <div className="mx-auto max-w-7xl px-6">
@@ -62,14 +66,25 @@ export default function ProjectsSection() {
           <div>
             <h2 className="text-3xl font-bold text-zinc-900">Proyectos</h2>
             <p className="mt-1 text-sm text-zinc-500">
-              Mis repositorios públicos de GitHub, actualizados periódicamente.
+              Mis repositorios pÃƒÂºblicos de GitHub, actualizados periÃƒÂ³dicamente.
             </p>
           </div>
         </div>
 
         <Suspense fallback={<ProjectsLoading />}>
-          <ProjectList />
+          <ProjectList limit={limit} />
         </Suspense>
+
+        {Number.isInteger(limit) && limit > 0 && (
+          <div className="mt-10 flex justify-center">
+            <a
+              href="/projects"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3B82F6] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2"
+            >
+              Ver todos los proyectos &rarr;
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );

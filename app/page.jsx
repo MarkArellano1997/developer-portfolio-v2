@@ -16,7 +16,7 @@ export default function Home() {
 
       <Skill />
 
-      <ProjectsSection />
+      <ProjectsSection limit={10} />
 
       <Contact />
     </main>
