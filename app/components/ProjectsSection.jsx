@@ -43,19 +43,19 @@ async function ProjectList({ limit }) {
 }
 
 /**
- * BotÃƒÂ³n para forzar la actualizaciÃƒÂ³n de la cachÃƒÂ© vÃƒÂ­a la API route.
+ * Botón para forzar la actualización de la caché vía la API route.
  * Usa un estado local para evitar re-render infinitos.
  */
 function handleRetry() {
-  // Recarga la pÃƒÂ¡gina para obtener datos frescos (la cachÃƒÂ© se revalida
-  // tambiÃƒÂ©n por tiempo, pero esto da una alternativa inmediata).
+  // Recarga la página para obtener datos frescos (la caché se revalida
+  // también por tiempo, pero esto da una alternativa inmediata).
   if (typeof window !== "undefined") {
     window.location.reload();
   }
 }
 
 /**
- * SecciÃƒÂ³n de proyectos del portafolio.
+ * Sección de proyectos del portafolio.
  * Muestra una cabecera y la lista de repositorios cargada desde GitHub.
  */
 export default function ProjectsSection({ limit }) {
@@ -66,7 +66,7 @@ export default function ProjectsSection({ limit }) {
           <div>
             <h2 className="text-3xl font-bold text-zinc-900">Proyectos</h2>
             <p className="mt-1 text-sm text-zinc-500">
-              Mis repositorios pÃƒÂºblicos de GitHub, actualizados periÃƒÂ³dicamente.
+              Mis repositorios públicos de GitHub, actualizados periódicamente.
             </p>
           </div>
         </div>
